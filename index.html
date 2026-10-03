@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Focus Board</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Plain classic scripts, no bundler and no modules, so the page opens
+         straight off the filesystem. `defer` keeps execution before the first
+         paint of the board while preserving board.js -> app.js order. -->
+    <script src="board.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#add-form">Skip to the add-card form</a>
+
+    <header class="masthead">
+      <div class="masthead__titles">
+        <h1 class="masthead__title">Focus Board</h1>
+        <p class="masthead__subtitle">
+          Three columns, and Doing never holds more than three cards.
+        </p>
+      </div>
+
+      <button type="button" id="theme-toggle" class="button button--quiet" aria-pressed="false">
+        <span class="button__icon" aria-hidden="true">&#9680;</span>
+        <span id="theme-toggle-label">Dark theme</span>
+      </button>
+    </header>
+
+    <main class="layout">
+      <form id="add-form" class="add-form" autocomplete="off">
+        <div class="field">
+          <label class="field__label" for="new-title">New card title</label>
+          <input
+            class="field__input"
+            type="text"
+            id="new-title"
+            name="new-title"
+            placeholder="Write the handoff"
+            maxlength="120"
+          />
+        </div>
+
+        <button type="submit" class="button button--primary">Add card</button>
+      </form>
+
+      <!-- Always in the DOM so errors from board.js are announced rather than
+           injected on demand. Hidden only while it has nothing to say. -->
+      <p id="message" class="message" role="status" aria-live="polite" hidden></p>
+
+      <div class="board">
+        <section class="column" id="col-todo" aria-labelledby="heading-todo">
+          <header class="column__header">
+            <h2 class="column__title" id="heading-todo">To do</h2>
+            <span class="count" id="count-todo">0</span>
+          </header>
+          <ul class="cards" id="list-todo" data-column="todo"></ul>
+        </section>
+
+        <section class="column" id="col-doing" aria-labelledby="heading-doing">
+          <header class="column__header">
+            <h2 class="column__title" id="heading-doing">Doing</h2>
+            <span class="column__limit">limit 3</span>
+            <span class="count" id="count-doing">0</span>
+          </header>
+          <ul class="cards" id="list-doing" data-column="doing"></ul>
+        </section>
+
+        <section class="column" id="col-done" aria-labelledby="heading-done">
+          <header class="column__header">
+            <h2 class="column__title" id="heading-done">Done</h2>
+            <span class="count" id="count-done">0</span>
+          </header>
+          <ul class="cards" id="list-done" data-column="done"></ul>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
